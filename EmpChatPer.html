@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.4.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            var connection = $.connection("/echo");
+            connection.start().done(function () {
+                console.log("Connected");
+
+                $("#cover").val("Connected!!!\n");
+                $("#sndBtn").click(function () {
+                    connection.send($("#msg").val());
+                    $("#msg").val("");
+                })
+            })
+            connection.received(function (data) {
+                $("#cover").val($("#cover").val() + data + "\n");
+            })
+        })
+    </script>
+</head>
+<body>
+
+    <div>
+        <label>Message</label>
+        <input type="text" id="msg" />
+        <button id="sndBtn">Send</button>
+    </div>
+    <textarea id="cover" style="width: 220px; height: 110px; background-color: lightblue;" readonly></textarea>
+</body>
+</html>
